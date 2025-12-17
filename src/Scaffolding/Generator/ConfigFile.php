@@ -179,42 +179,15 @@ class ConfigFile extends BaseGenerator
         }
 
         // Ask for site details (site name, admin user, password, etc).
-        $dbdriver = $this->io->select(
-            'What database driver are you using?',
-            [
-                'mariadb' => 'MariaDB (mariadb)',
-                'mysqli' => 'MySQL Improved (mysqli)',
-                'pgsql' => 'PostgreSQL (pgsql)',
-                'sqlsrv' => 'Microsoft SQL Server (sqlsrv)',
-                'auroramysql' => 'Amazon Aurora MySQL (auroramysql)',
-            ],
-            'pgsql',
-        );
+        $dbdriver = $this->getDatabaseDriver();
 
-        $dbuser = $this->io->askAndHideAnswer('Enter the database username: ') ?? '';
-        $dbpass = $this->io->askAndHideAnswer('Enter the database password: ') ?? '';
-        $dbname = $this->io->askAndValidate(
-            'Enter the database name: ',
-            function ($answer)  {
-                if (empty($answer)) {
-                    throw new \RuntimeException('Database name cannot be empty.');
-                }
-                return $answer;
-            },
-        );
+        $dbuser = $this->getDatabaseUsername();
+        $dbpass = $this->getDatabasePassword();
+        $dbname = $this->getDatabaseName();
+        $dbhost = $this->getDatabaseHost();
+        $dbprefix = $this->getDatabasePrefix();
 
-        $dbhost = $this->io->ask('Enter the database host (default: localhost): ', 'localhost');
-        $dbprefix = $this->io->ask('Enter the database table prefix (default: mdl_): ', 'mdl_');
-
-        $wwwroot = $this->io->askAndValidate(
-            'Enter the web root URL (for example, https://moodle.example.com): ',
-            function ($answer) {
-                if (empty($answer) || !filter_var($answer, FILTER_VALIDATE_URL)) {
-                    throw new \RuntimeException('Please enter a valid URL for the web root.');
-                }
-                return rtrim($answer, '/');
-            },
-        );
+        $wwwroot = $this->getWwwRoot();
         $dataroot = $this->io->ask('Enter the Moodle data directory path (default: moodledata): ', 'moodledata');
 
         $this->setDatabaseConfig(
@@ -240,4 +213,97 @@ class ConfigFile extends BaseGenerator
         $this->io->write('Moodle configuration file generated successfully.');
     }
 
+    protected function getDatabaseDriver(): string
+    {
+        if ($_ENV['MOODLE_DB_DRIVER'] ?? '' !== '') {
+            return $_ENV['MOODLE_DB_DRIVER'];
+        }
+
+        // Ask for site details (site name, admin user, password, etc).
+        return $this->io->select(
+            'What database driver are you using?',
+            [
+                'mariadb' => 'MariaDB (mariadb)',
+                'mysqli' => 'MySQL Improved (mysqli)',
+                'pgsql' => 'PostgreSQL (pgsql)',
+                'sqlsrv' => 'Microsoft SQL Server (sqlsrv)',
+                'auroramysql' => 'Amazon Aurora MySQL (auroramysql)',
+            ],
+            'pgsql',
+        );
+    }
+
+    protected function getDatabaseUsername(): string
+    {
+        if ($_ENV['MOODLE_DB_USERNAME'] ?? '' !== '') {
+            return $_ENV['MOODLE_DB_USERNAME'];
+        }
+
+        return $this->io->askAndHideAnswer('Enter the database username: ') ?? '';
+    }
+
+    protected function getDatabasePassword(): string
+    {
+        if ($_ENV['MOODLE_DB_PASSWORD'] ?? '' !== '') {
+            return $_ENV['MOODLE_DB_PASSWORD'];
+        }
+
+        return $this->io->askAndHideAnswer('Enter the database password: ') ?? '';
+    }
+
+    protected function getDatabaseName(): string
+    {
+        $default = $this->getBaseDirName();
+
+        return $this->io->askAndValidate(
+            "Enter the database name (default {$default}): ",
+            function ($answer)  {
+                if (empty($answer)) {
+                    throw new \RuntimeException('Database name cannot be empty.');
+                }
+                return $answer;
+            },
+            null,
+            $default,
+        );
+    }
+
+    protected function getDatabaseHost(): string
+    {
+        if ($_ENV['MOODLE_DB_HOST'] ?? '' !== '') {
+            return $_ENV['MOODLE_DB_HOST'];
+        }
+
+        return $this->io->ask('Enter the database host (default: localhost): ', 'localhost');
+    }
+
+    protected function getDatabasePrefix(): string
+    {
+        if ($_ENV['MOODLE_DB_PREFIX'] ?? '' !== '') {
+            return $_ENV['MOODLE_DB_PREFIX'];
+        }
+
+        return $this->io->ask('Enter the database table prefix (default: mdl_): ', 'mdl_');
+    }
+
+    protected function getWwwRoot(): string
+    {
+        if ($_ENV['MOODLE_WWWROOT'] ?? '' !== '') {
+            $wwwroot = rtrim($_ENV['MOODLE_WWWROOT'], '/');
+
+            $wwwroot = str_replace('[NAME]', $this->getBaseDirName(), $wwwroot);
+
+            return $wwwroot;
+        }
+
+        return $this->io->askAndValidate(
+            'Enter the web root URL (for example, https://moodle.example.com): ',
+            function ($answer) {
+                if (empty($answer) || !filter_var($answer, FILTER_VALIDATE_URL)) {
+                    throw new \RuntimeException('Please enter a valid URL for the web root.');
+                }
+                return rtrim($answer, '/');
+            },
+        );
+    }
 }

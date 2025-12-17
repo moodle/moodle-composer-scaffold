@@ -73,4 +73,9 @@ trait PackagePathTrait
         $fs = new Filesystem();
         return $fs->findShortestPath($from, $to, $directories);
     }
+
+    protected function getBaseDirName(): string
+    {
+        return basename(dirname($this->getVendorPath()));
+    }
 }
