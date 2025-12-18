@@ -6,6 +6,7 @@ This tooling will:
 
 - Generate a Moodle configuration file
 - Support the generation of Configuration for Moodle
+- Assist with the installation of Moodle
 
 ## References
 
