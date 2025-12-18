@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Moodle\Composer\Plugin\Scaffold\Command;
+namespace Moodle\Composer\Scaffold\Command;
 
-use Moodle\Composer\Plugin\Scaffold\Scaffolder;
+use Moodle\Composer\Scaffold\Scaffolder;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

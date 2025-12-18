@@ -15,11 +15,11 @@
     "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
-            "Moodle\\Composer\\Plugin\\Scaffold\\": "src/"
+            "Moodle\\Composer\\Scaffold\\": "src/"
         }
     },
     "extra": {
-        "class": "Moodle\\Composer\\Plugin\\Scaffold\\Plugin"
+        "class": "Moodle\\Composer\\Scaffold\\Plugin"
     },
     "scripts": {
         "test": "@php phpunit",

@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Moodle\Composer\Plugin\Scaffold;
+namespace Moodle\Composer\Scaffold;
 
 use Composer\Composer;
-use Moodle\Composer\Plugin\Scaffold\Command\ConfigureMoodleCommand;
-use Moodle\Composer\Plugin\Scaffold\Command\ScaffoldCommand;
+use Moodle\Composer\Scaffold\Command\ConfigureMoodleCommand;
+use Moodle\Composer\Scaffold\Command\ScaffoldCommand;
 
 /**
  * Command Provider for the Moodle Composer Scaffold plugin.

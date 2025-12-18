@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Moodle\Composer\Plugin\Scaffold;
+namespace Moodle\Composer\Scaffold;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;

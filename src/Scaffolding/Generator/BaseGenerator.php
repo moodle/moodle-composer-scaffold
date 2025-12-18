@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Moodle\Composer\Plugin\Scaffold\Scaffolding\Generator;
+namespace Moodle\Composer\Scaffold\Scaffolding\Generator;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
-use Moodle\Composer\Plugin\Scaffold\PackagePathTrait;
+use Moodle\Composer\Scaffold\PackagePathTrait;
 
 /**
  * Service to scaffold Moodle core files.
