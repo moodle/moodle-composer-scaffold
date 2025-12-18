@@ -79,19 +79,6 @@ class ConfigFile extends BaseGenerator
         return file_exists($this->getConfigFilePath());
     }
 
-    /**
-     * Set the site config.
-     */
-    public function setSiteConfig(
-        string $wwwroot,
-        string $dataroot,
-    ): static {
-        $this->wwwroot = $wwwroot;
-        $this->dataroot = (new Filesystem())->normalizePath($dataroot);
-
-        return $this;
-    }
-
     protected function getTemplateContent(): string
     {
         return <<<TEMPLATE
