@@ -17,7 +17,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.1"
           - "8.2"
           - "8.3"
           - "8.4"
@@ -25,7 +24,7 @@ jobs:
         experimental: [false]
         os: [ubuntu-latest]
         include:
-          - php-version: "8.1"
+          - php-version: "8.2"
             dependencies: lowest
             os: ubuntu-latest
             experimental: false
