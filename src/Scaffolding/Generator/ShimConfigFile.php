@@ -30,13 +30,38 @@ class ShimConfigFile extends BaseGenerator
     #[\Override]
     public function generate(): void
     {
-        $this->io->write("- <info>Generating Moodle configuration shim file...</info>", false);
+        $this->io->write("- <info>Generating Moodle configuration shim file...</info>");
 
         $targetPath = $this->getMoodlePath() . '/config.php';
 
-        file_put_contents($targetPath, $this->getTemplateContent());
+        $configContent = $this->getTemplateContent();
+        if (Filesystem::isReadable($targetPath)) {
+            if (file_get_contents($targetPath) === $configContent) {
+                $this->io->write("    <comment>Skipped, file is up to date</comment>");
+                return;
+            } else {
+                if ($this->io->isInteractive()) {
+                    $confirm = $this->io->askConfirmation(
+                        "    <question>The config.php file already exists and differs from the generated one. Overwrite it? (y/n) </question>",
+                        false
+                    );
+                    if (!$confirm) {
+                        $this->io->write("        <comment>Skipped: user chose not to overwrite</comment>");
+                        return;
+                    }
+                }
 
-        $this->io->write("<info> done.</info>");
+                $backupFilename = 'config-' . date('Ymd-His') . '.php';
+                $filesystem = new Filesystem();
+                $filesystem->safeCopy($targetPath, $this->getMoodlePath() . '/' . $backupFilename);
+                $this->io->write("        <comment>Backed up existing config.php to {$backupFilename}</comment>");
+            }
+        }
+
+
+        file_put_contents($targetPath, $configContent);
+
+        $this->io->write("    <info>Moodle configuration shim file generated.</info>");
     }
 
     protected function getTemplateContent(): string

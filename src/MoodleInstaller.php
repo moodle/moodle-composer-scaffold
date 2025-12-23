@@ -85,6 +85,13 @@ class MoodleInstaller
             return true;
         }
 
+        $this->io->write('================================ ');
+        $this->io->write('<comment>Moodle GNU General Public License Agreement</comment>');
+        $this->io->write('================================ ');
+        $this->io->write('');
+        $this->io->write($this->getLicenseText());
+        $this->io->write('');
+
         // Display the license agreement first.
         return $this->io->askConfirmation(
             'Do you agree to the GNU General Public License terms? (y/N) ',
@@ -147,5 +154,36 @@ class MoodleInstaller
             null,
             $defaultShortName,
         );
+    }
+
+    protected function getLicenseText(): string
+    {
+        // Attempt to load the license text from the Moodle root directory.
+        $licenseFilePaths = [
+            $this->getMoodlePath() . '/public/lang/en/moodle.php',
+            $this->getMoodlePath() . '/lang/en/moodle.php',
+        ];
+
+        foreach ($licenseFilePaths as $licenseFilePath) {
+            if (is_readable($licenseFilePath)) {
+                $string = [];
+                include $licenseFilePath;
+                if (isset($string['gpl3'])) {
+                    return $string['gpl3'];
+                }
+            }
+        }
+
+        // Fallback: load the license text from a static value.
+        // This value copied from Moodle 5.2.
+        return <<<EOT
+        Copyright (C) 1999 onwards Martin Dougiamas (https://moodle.com)
+
+        This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+        See the Moodle License information page for full details: https://moodledev.io/general/license
+        EOT;
     }
 }
