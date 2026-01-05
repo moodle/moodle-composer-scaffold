@@ -43,6 +43,12 @@ class ShimBinMoodleFile extends BaseGenerator
         chmod($targetPath, 0755);
 
         $this->io->write("<info>    Console Shim created at ./msh</info>");
+
+        $this->addGitIgnore(
+            'msh',
+            'Moodle Console Shim',
+            'This is an auto-generated file to provide easy access to the Moodle CLI tool.',
+        );
     }
 
     protected function getTemplateContent(): string
