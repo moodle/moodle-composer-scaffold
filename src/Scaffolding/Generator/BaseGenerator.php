@@ -62,7 +62,7 @@ abstract class BaseGenerator
         ?string $reason = null,
     ): void {
         $gitignorepath = $this->getRootPackagePath() . '/.gitignore';
-        $fullentry = "# Ignore {$description}\n";
+        $fullentry = "\n# Ignore {$description}\n";
         if ($reason) {
             $fullentry .= "# {$reason}\n";
         }

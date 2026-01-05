@@ -7,6 +7,10 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
 
 ## [Unreleased]
 
+### Fixed
+
+- Adjusted the output format of the `.gitignore`.
+
 ## [0.2.0] - 2026-01-05
 
 ### Added
