@@ -74,6 +74,7 @@ class Scaffolder
         // Generate the Moodle Shim files.
         (new Generator\ShimConfigFile($this->composer, $this->io))->generate();
         (new Generator\ShimBinMoodleFile($this->composer, $this->io))->generate();
+        (new Generator\ShimComposerAutoloadFile($this->composer, $this->io))->generate();
 
         // Attempt to generate the Moodle configuration file.
         $configFile = new Generator\ConfigFile($this->composer, $this->io);

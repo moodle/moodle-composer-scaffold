@@ -20,7 +20,7 @@ namespace Moodle\Composer\Scaffold\Scaffolding\Generator;
 use Composer\Util\Filesystem;
 
 /**
- * Moodle Config File Generator.
+ * Moodle Shim Config File Generator.
  */
 class ShimConfigFile extends BaseGenerator
 {

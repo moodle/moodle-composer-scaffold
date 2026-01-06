@@ -7,6 +7,10 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
 
 ## [Unreleased]
 
+### Added
+
+- Generation of a composer autoload shim file.
+
 ### Fixed
 
 - Adjusted the output format of the `.gitignore`.
