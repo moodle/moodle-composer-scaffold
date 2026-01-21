@@ -9,13 +9,13 @@ The format of this change log follows the advice given at [Keep a CHANGELOG](htt
 
 ## [1.0.2] - 2026-01-21
 
-## Fixed
+### Fixed
 
 - Create `vendor` directory before generating autoload shim.
 
 ## [1.0.1] - 2026-01-20
 
-## Changed
+### Changed
 
 - Move generation of the autoload shim to `/vendor/autoload.php`
 
